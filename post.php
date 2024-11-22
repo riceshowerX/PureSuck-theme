@@ -8,13 +8,11 @@
     ?>
     <article class="post <?= $hasImg ? 'post--photo post--cover' : 'post--text'; ?> post--index main-item" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
         <div class="post-inner">
-            <header class="post-item post-header  <?= $hasImg ? 'no-bg' : ''; ?>">
+            <header class="post-item post-header <?= $hasImg ? 'no-bg' : ''; ?>">
                 <div class="wrapper post-wrapper">
                     <div class="avatar post-author">
-                        <img src="<?php echo $this->options->authorAvatar ? $this->options->authorAvatar : $this->options->themeUrl('images/avatar.png'); ?>" alt="作者头像" class="avatar-item avatar-img">
-                        <span class="avatar-item">
-                            <?php $this->author(); ?>
-                        </span>
+                        <img src="<?= $this->options->authorAvatar ? $this->options->authorAvatar : $this->options->themeUrl('images/avatar.png'); ?>" alt="作者头像" class="avatar-item avatar-img">
+                        <span class="avatar-item"><?php $this->author(); ?></span>
                     </div>
                 </div>
             </header>
@@ -22,50 +20,48 @@
             <!-- 大图样式 -->
             <?php if ($hasImg): ?>
                 <figure class="post-media <?= $this->is('post') ? 'single' : ''; ?>">
-                    <img data-aos="zoom-out" data-aos-anchor-placement="top-bottom" itemprop="image" src="<?php $this->fields->img(); ?>" alt="头图" width="2000" height="800">
+                    <img itemprop="image" src="<?= $this->fields->img(); ?>" alt="头图" width="2000" height="800">
                 </figure>
             <?php endif; ?>
 
             <section class="post-item post-body">
                 <div class="wrapper post-wrapper">
                     <h1 class="post-title">
-                        <a href="<?php $this->permalink() ?>" title="<?php $this->title() ?>">
-                            <?php $this->title() ?>
+                        <a href="<?= $this->permalink() ?>" title="<?= $this->title() ?>">
+                            <?= $this->title() ?>
                         </a>
                     </h1>
                     <div class="inner-post-wrapper">
                         <div class="meta post-meta">
-                            <a itemprop="datePublished" href="<?php $this->permalink() ?>"
-                                class="icon-ui icon-ui-date meta-item meta-date">
-                                <span class="meta-count">
-                                    <?php $this->date(); ?>
-                                </span>
+                            <a itemprop="datePublished" href="<?= $this->permalink() ?>"
+                               class="icon-ui icon-ui-date meta-item meta-date">
+                                <span class="meta-count"><?= $this->date(); ?></span>
                             </a>
-                            <a href="<?php $this->permalink() ?>#comments"
-                                class="icon-ui icon-ui-comment meta-item meta-comment">
-                                <?php $this->commentsNum('暂无评论', '1 条评论', '%d 条评论'); ?>
+                            <a href="<?= $this->permalink() ?>#comments"
+                               class="icon-ui icon-ui-comment meta-item meta-comment">
+                                <?= $this->commentsNum('暂无评论', '1 条评论', '%d 条评论'); ?>
                             </a>
                         </div>
+
+                        <!-- 短代码解析 -->
                         <?php
-                        // 短代码解析，交给 function.php
                         $content = $this->content;
-                        $content = parseShortcodes($content);
-                        echo $content;
+                        echo parseShortcodes($content); // 短代码解析，交给 function.php
                         ?>
 
                         <!-- 判断并显示版权信息 -->
                         <?php if (!$this->hidden && $this->options->showCopyright == '1'): ?>
                             <div class="license-info-card">
-                                <div class="license-info-title"><?php $this->title(); ?></div>
-                                <a class="license-info-link" href="#"><?php $this->permalink(); ?></a>
+                                <div class="license-info-title"><?= $this->title(); ?></div>
+                                <a class="license-info-link" href="<?= $this->permalink(); ?>"><?= $this->permalink(); ?></a>
                                 <div class="license-info-meta">
                                     <div>
                                         <span>本文作者</span>
-                                        <span><?php $this->author(); ?></span>
+                                        <span><?= $this->author(); ?></span>
                                     </div>
                                     <div>
                                         <span>发布时间</span>
-                                        <span><?php $this->date('Y-m-d'); ?></span>
+                                        <span><?= $this->date('Y-m-d'); ?></span>
                                     </div>
                                     <div>
                                         <span>许可协议</span>
@@ -94,13 +90,11 @@
         <span class="nav-item-alt">
             <?php
             $options = Typecho_Widget::widget('Widget_Options');
-            if (!empty($options->footerInfo)) {
-                echo $options->footerInfo;
-            }
-            ?> </span>
+            echo !empty($options->footerInfo) ? $options->footerInfo : ''; 
+            ?>
+        </span>
     </div>
 </nav>
-</main>
 
 <?php $this->need('sidebar.php'); ?>
 <?php $this->need('footer.php'); ?>

@@ -27,12 +27,16 @@
             </header>
             <section class="section-body">
                 <div class="category-cloud">
-                    <?php $this->widget('Widget_Metas_Category_List')->to($categories); ?>
-                    <?php if ($categories->have()): ?>
-                        <?php while ($categories->next()): ?>
+                    <?php 
+                    $this->widget('Widget_Metas_Category_List')->to($categories); 
+                    if ($categories->have()): 
+                        while ($categories->next()): 
+                    ?>
                             <a href="<?php $categories->permalink(); ?>" class="category"><?php $categories->name(); ?></a>
-                        <?php endwhile; ?>
-                    <?php else: ?>
+                    <?php 
+                        endwhile; 
+                    else: 
+                    ?>
                         <p><?php _e('没有任何分类'); ?></p>
                     <?php endif; ?>
                 </div>
@@ -49,12 +53,16 @@
             </header>
             <section class="section-body">
                 <div class="tag-cloud">
-                    <?php $this->widget('Widget_Metas_Tag_Cloud')->to($tags); ?>
-                    <?php if ($tags->have()): ?>
-                        <?php while ($tags->next()): ?>
+                    <?php 
+                    $this->widget('Widget_Metas_Tag_Cloud')->to($tags); 
+                    if ($tags->have()): 
+                        while ($tags->next()): 
+                    ?>
                             <a href="<?php $tags->permalink(); ?>" class="tag"><?php $tags->name(); ?></a>
-                        <?php endwhile; ?>
-                    <?php else: ?>
+                    <?php 
+                        endwhile; 
+                    else: 
+                    ?>
                         <p><?php _e('没有任何标签'); ?></p>
                     <?php endif; ?>
                 </div>
@@ -62,9 +70,9 @@
         </div>
     <?php endif; ?>
 
-    <!-- TOC -->
+    <!-- 文章目录 -->
     <?php if ($this->options->showTOC == '1' && ($this->is('post') || $this->is('page') || $this->is('archives'))): ?>
-        <div class="toc-section" id="toc-section" style="display: none;">
+        <div class="toc-section" id="toc-section" class="dn">
             <header class="section-header">
                 <span class="icon-article"></span>
                 <span class="title">文章目录</span>
