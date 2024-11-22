@@ -86,10 +86,7 @@ $this->need('header.php');
 
 <div class="nav main-lastinfo">
     <span class="nav-item-alt">
-        <?php
-        $options = Typecho_Widget::widget('Widget_Options');
-        echo !empty($options->footerInfo) ? $options->footerInfo : ''; // 直接输出footer信息
-        ?>
+        <?= !empty($this->options->footerInfo) ? $this->options->footerInfo : ''; ?>
     </span>
 </div>
 

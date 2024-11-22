@@ -36,13 +36,6 @@
     <!-- AOS -->
     <script defer src="<?php $this->options->themeUrl('/js/aos.js'); ?>"></script>
 
-<!-- 其他 JS 库 -->
-    <script defer src="<?php $this->options->themeUrl('/js/medium-zoom.min.js'); ?>"></script>
-    <script defer src="<?php $this->options->themeUrl('/js/highlight.min.js'); ?>"></script>
-    <script defer src="<?php $this->options->themeUrl('/js/PureSuck_Module.js'); ?>"></script>
-    <script defer src="<?php $this->options->themeUrl('/js/OwO.min.js'); ?>"></script>
-    <script defer src="<?php $this->options->themeUrl('/js/MoxDesign.js'); ?>"></script>
-
     <!-- 动态样式生成 -->
     <?php generateDynamicCSS(); ?>
 

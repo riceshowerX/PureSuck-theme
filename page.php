@@ -4,7 +4,7 @@
 <div class="wrapper">
 
     <?php
-    $hasImg = $this->fields->img ? true : false;
+    $hasImg = !empty($this->fields->img);
     ?>
     <article class="post <?= $hasImg ? 'post--photo post--cover' : 'post--text'; ?> post--index main-item" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
         <div class="post-inner">
@@ -33,12 +33,10 @@
                     </h1>
                     <div class="inner-post-wrapper">
                         <div class="meta post-meta">
-                            <a itemprop="datePublished" href="<?= $this->permalink() ?>"
-                               class="icon-ui icon-ui-date meta-item meta-date">
+                            <a itemprop="datePublished" href="<?= $this->permalink() ?>" class="icon-ui icon-ui-date meta-item meta-date">
                                 <span class="meta-count"><?= $this->date(); ?></span>
                             </a>
-                            <a href="<?= $this->permalink() ?>#comments"
-                               class="icon-ui icon-ui-comment meta-item meta-comment">
+                            <a href="<?= $this->permalink() ?>#comments" class="icon-ui icon-ui-comment meta-item meta-comment">
                                 <?= $this->commentsNum('暂无评论', '1 条评论', '%d 条评论'); ?>
                             </a>
                         </div>
