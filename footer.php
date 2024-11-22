@@ -2,7 +2,6 @@
 <?php $this->footer(); ?>
 
 <!-- 回到顶端 -->
-
 <body>
   <div class="go-top dn" id="go-top">
     <a href="#" class="go icon-up-open" aria-label="返回顶部"></a>
@@ -26,60 +25,53 @@
 $codeBlockSettings = Typecho_Widget::widget('Widget_Options')->codeBlockSettings;
 ?>
 <script>
-  document.addEventListener('DOMContentLoaded', (event) => {
+  document.addEventListener('DOMContentLoaded', () => {
     // 确保代码块高亮
     document.querySelectorAll('pre code').forEach((block) => {
       hljs.highlightElement(block);
+      
+      // 显示行号
       <?php if (is_array($codeBlockSettings) && in_array('ShowLineNumbers', $codeBlockSettings)): ?>
         addLineNumber(block);
       <?php endif; ?>
     });
+
+    // 显示复制按钮
     <?php if (is_array($codeBlockSettings) && in_array('ShowCopyButton', $codeBlockSettings)): ?>
       addCopyButtons();
     <?php endif; ?>
   });
 
-  // 添加行号函数
+  // 添加行号
   function addLineNumber(codeDom) {
-    codeDom.classList.add("code-block-extension-code-show-num");
     const codeHtml = codeDom.innerHTML;
-    const lines = codeHtml.split("\n").map((line, index) => {
-      return `<span class="code-block-extension-code-line" data-line-num="${index + 1}">${line}</span>`;
-    }).join("\n");
+    const lines = codeHtml.split("\n").map((line, index) => 
+      `<span class="code-block-extension-code-line" data-line-num="${index + 1}">${line}</span>`
+    ).join("\n");
     codeDom.innerHTML = lines;
   }
 
-  // 添加复制按钮函数
+  // 添加复制按钮
   function addCopyButtons() {
-    const codeBlocks = document.querySelectorAll('pre code');
-
-    codeBlocks.forEach((codeBlock, index) => {
+    document.querySelectorAll('pre code').forEach((codeBlock) => {
       const pre = codeBlock.parentElement;
-
-      // 创建按钮元素
+      
+      // 创建复制按钮
       const button = document.createElement('button');
       button.className = 'copy-button';
       button.innerText = 'Copy';
 
-      // 将按钮添加到 <pre> 元素中
-      pre.appendChild(button);
+      // 绑定点击事件
+      button.addEventListener('click', () => handleButtonClick(codeBlock, button));
 
-      // 按钮点击事件
-      button.setAttribute('onclick', 'handleButtonClick(event)');
+      // 将按钮添加到 <pre> 元素
+      pre.appendChild(button);
     });
   }
 
-  window.handleButtonClick = async function handleButtonClick(event) {
-    event.stopPropagation();
-    event.preventDefault();
-
-    const button = event.currentTarget;
-    const codeBlock = button.parentElement.querySelector('code');
-
-    // 获取代码文本
+  // 复制按钮点击事件处理
+  async function handleButtonClick(codeBlock, button) {
     const code = codeBlock.textContent;
-
-    // 保存当前滚动位置
     const scrollY = window.scrollY;
 
     try {
@@ -87,7 +79,6 @@ $codeBlockSettings = Typecho_Widget::widget('Widget_Options')->codeBlockSettings
         await navigator.clipboard.writeText(code);
         button.innerText = 'Copied!';
       } else {
-        // 使用 document.execCommand() 作为后备
         const textArea = document.createElement('textarea');
         textArea.value = code;
         textArea.style.position = 'fixed'; // 避免滚动到页面底部
@@ -96,11 +87,10 @@ $codeBlockSettings = Typecho_Widget::widget('Widget_Options')->codeBlockSettings
         document.body.appendChild(textArea);
         textArea.focus();
         textArea.select();
-        try {
-          document.execCommand('copy');
+
+        if (document.execCommand('copy')) {
           button.innerText = 'Copied!';
-        } catch (err) {
-          console.error('复制文本失败:', err);
+        } else {
           alert('复制文本失败，请重试。');
         }
         document.body.removeChild(textArea);
